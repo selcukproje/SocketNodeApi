@@ -1,10 +1,11 @@
 const socketIO = require('socket.io');
-const httpServer = require("http").createServer();
 const express = require('express');
+const { env } = require('process');
 const app = express();
-app.use(express.json());
+var server = require('http').Server(app)
+var io = require('socket.io')(server);
 
-const io = socketIO(httpServer);
+app.use(express.json());
 
 io.on('connection', (socket) => {
     console.log('Bir kullanıcı bağlandı: ' + socket.id);
@@ -20,6 +21,5 @@ app.post('/SendData', (req, res) => {
     io.sockets.emit("getData", req.body.data)
   });
  
-const server = app.listen(3004);
-httpServer.listen(3005);
+server.listen(process.env.PORT || 3000);
 
