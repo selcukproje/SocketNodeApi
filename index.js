@@ -15,10 +15,13 @@ io.on('connection', (socket) => {
     });
   });
 
-app.post('/SendData', (req, res) => {
+app.get('/SendData', (req, res) => {
     req.body;
     res.json(req.body);
-    io.sockets.emit("getData", req.body.data)
+    io.sockets.emit("getData", {
+      waterQuantity:  req.query.value1,
+      totalWaterQuantity:  req.query.value2
+    })
   });
  
 server.listen(process.env.PORT || 3000);
