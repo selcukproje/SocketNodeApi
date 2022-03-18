@@ -1,5 +1,8 @@
 const socketIO = require('socket.io');
 const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+
 const { env } = require('process');
 const app = express();
 var server = require('http').Server(app)
@@ -7,12 +10,8 @@ var io = require('socket.io')(server);
 
 app.use(express.json());
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
+app.use(cors());
+app.use(bodyParser.json({ type: 'application/json' }));
 
 io.on('connection', (socket) => {
     console.log('Bir kullanıcı bağlandı: ' + socket.id);
