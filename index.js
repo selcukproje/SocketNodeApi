@@ -1,11 +1,15 @@
 const socketIO = require('socket.io');
 const express = require('express');
+const cors = require('cors');
 const { env } = require('process');
 const app = express();
 var server = require('http').Server(app)
 var io = require('socket.io')(server);
 
 app.use(express.json());
+app.use(cors());
+
+app.options('*', cors());
 
 io.on('connection', (socket) => {
     console.log('Bir kullanıcı bağlandı: ' + socket.id);
